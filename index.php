@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+<?php 
+
+$bdPath = __DIR__ . '/banco.sqlite';
+$pdo = new PDO("sqlite:$bdPath");
+$videoList = $pdo->query('SELECT * FROM videos;')->fetchAll(\PDO::FETCH_ASSOC); 
+
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -18,7 +24,7 @@
     <header>
 
         <nav class="cabecalho">
-            <a class="logo" href="./index.html"></a>
+            <a class="logo" href="./"></a>
 
             <div class="cabecalho__icones">
                 <a href="./pages/enviar-video.html" class="cabecalho__videos"></a>
@@ -29,62 +35,22 @@
     </header>
 
     <ul class="videos__container" alt="videos alura">
+        <?php foreach ($videoList as $video): ?>
         <li class="videos__item">
-            <iframe width="100%" height="72%" src="https://www.youtube.com/embed/pA-EgOaF23I"
+            <iframe width="100%" height="72%" src="<?php echo $video['url']; ?>"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
             <div class="descricao-video">
                 <img src="./img/logo.png" alt="logo canal alura">
-                <h3>Qual é o melhor hardware para programação com Mario Souto</h3>
+                <h3><?php echo $video['title']; ?></h3>
                 <div class="acoes-video">
-                    <a href="./pages/enviar-video.html">Editar</a>
-                    <a href="./pages/enviar-video.html">Excluir</a>
+                    <a href="/formulario.php?id=<?php echo $video['id']; ?>">Editar</a>
+                    <a href="/remover-video.php?id=<?php echo $video['id']; ?>">Excluir</a>
                 </div>
             </div>
         </li>
-        <li class="videos__item">
-            <iframe width="100%" height="72%" src="https://www.youtube.com/embed/OrnUhR41MYI"
-                title="Voltando ao mercado após a maternidade: Ana Silvério" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <div class="descricao-video">
-                <img src="./img/logo.png" alt="logo canal alura">
-                <h3>Voltando ao mercado após a mmaternidade: Ana Silvério</h3>
-                <div class="acoes-video">
-                    <a href="./pages/enviar-video.html">Editar</a>
-                    <a href="./pages/enviar-video.html">Excluir</a>
-                </div>
-            </div>
-        </li>
-        <li class="videos__item">
-            <iframe width="100%" height="72%" src="https://www.youtube.com/embed/YhnNOTde2I0"
-                title="Mercado de Trabalho | Desmistificando Mobile - Episódio 5" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <div class="descricao-video">
-                <img src="./img/logo.png" alt="logo canal alura">
-                <h3>Mercado de Trabalho | Desmistificando Mobile...</h3>
-                <div class="acoes-video">
-                    <a href="./pages/enviar-video.html">Editar</a>
-                    <a href="./pages/enviar-video.html">Excluir</a>
-                </div>
-            </div>
-        </li>
-        <li class="videos__item">
-            <iframe width="100%" height="72%" src="https://www.youtube.com/embed/y8FeZMv37WU"
-                title="Conhecendo a linguagem Go | Hipsters.Talks" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <div class="descricao-video">
-                <img src="./img/logo.png" alt="logo canal alura">
-                <h3>Conhecendo a linguagem Go | Hipsters.Talks</h3>
-                <div class="acoes-video">
-                    <a href="./pages/enviar-video.html">Editar</a>
-                    <a href="./pages/enviar-video.html">Excluir</a>
-                </div>
-            </div>
-        </li>
+        <?php endforeach ?>
     </ul>
 </body>
 
